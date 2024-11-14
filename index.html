@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEX High Stakes Skills Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #2d2d2d;
+            text-align: center;
+            padding: 40px;
+        }
+        .container {
+            background: #3a3a3a;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+            border: 2px solid #c59739;
+        }
+        h1 {
+            font-weight: 600;
+            color: #f8f9fa;
+        }
+        label {
+            font-weight: 500;
+            font-size: 1.1em;
+            color: #f8f9fa;
+        }
+        input[type="number"], select {
+            width: 100px;
+            padding: 10px;
+            margin: 15px;
+            border-radius: 5px;
+            border: 1px solid #c59739;
+            font-size: 1em;
+            background-color: #ffffff;
+        }
+        .result {
+            font-weight: 600;
+            font-size: 1.8em;
+            color: #c59739;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="color: #f8f9fa; font-weight: 700; font-size: 2em; text-align: center;">3134R</h2>
+    <div class="container">
+        <h1>VEX High Stakes Skills Calculator</h1>
+        <form id="scoreForm">
+            <label>Red Rings Scored: <input type="number" id="redRings" min="0" value="0" oninput="calculateScore()"></label><br>
+            <label>Top Rings Scored (Top of Stakes): <input type="number" id="blueRings" min="0" value="0" oninput="calculateScore()"></label><br>
+            <label>Goals in Corners (5 pts each): <input type="number" id="goalsInCorners" min="0" max="4" value="0" oninput="calculateScore()"></label><br>
+            <label>Hang Level: 
+                <select id="hangLevel" onchange="calculateScore()">
+                    <option value="0">No Hang</option>
+                    <option value="1">Tier 1 Hang (3 pts)</option>
+                    <option value="2">Tier 2 Hang (6 pts)</option>
+                    <option value="3">Tier 3 Hang (12 pts)</option>
+                </select>
+            </label><br>
+        </form>
+        <div class="result" id="result">Total Score: 0</div>
+    </div>
+    <script>
+        function calculateScore() {
+            const redRings = parseInt(document.getElementById("redRings").value);
+            const blueRings = parseInt(document.getElementById("blueRings").value);
+            const goalsInCorners = parseInt(document.getElementById("goalsInCorners").value);
+            const hangLevel = parseInt(document.getElementById("hangLevel").value);
+
+            let totalScore = 0;
+
+            // Red rings scored: 1 point each
+            totalScore += redRings * 1;
+
+            // Blue rings scored (only count if red rings are scored under them): 3 points each
+            if (redRings >= blueRings) {
+                totalScore += blueRings * 3;
+            }
+
+            // Goals in corners: 5 points each
+            totalScore += goalsInCorners * 5;
+
+            // Hang level points
+            if (hangLevel === 1) {
+                totalScore += 3;
+            } else if (hangLevel === 2) {
+                totalScore += 6;
+            } else if (hangLevel === 3) {
+                totalScore += 12;
+            }
+
+            document.getElementById("result").innerText = "Total Score: " + totalScore;
+        }
+    </script>
+</body>
+</html>
