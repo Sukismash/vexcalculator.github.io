@@ -3,14 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEX High Stakes Skills Calculator</title>
+    <title>VEX High Stakes Calculator - 3134R</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Lexend', sans-serif;
             background-color: #2d2d2d;
             text-align: center;
-            padding: 40px;
+            padding: 0;
+            margin: 0;
+        }
+        .header {
+            background-color: #3a3a3a;
+            padding: 15px;
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            background-color: #3a3a3a;
+            padding: 10px 0;
+        }
+        .nav-button {
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            color: #3a3a3a;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        .content {
+            padding: 30px;
+            display: none;
         }
         .container {
             background: #3a3a3a;
@@ -24,6 +55,12 @@
         h1 {
             font-weight: 600;
             color: #f8f9fa;
+        }
+        h2.red-alliance {
+            color: #ff4c4c;
+        }
+        h2.blue-alliance {
+            color: #4c6aff;
         }
         label {
             font-weight: 500;
@@ -45,57 +82,180 @@
             color: #c59739;
             margin-top: 30px;
         }
+        .home-button {
+            margin: 20px;
+            padding: 15px 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            color: #c59739;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
-    <h2 style="color: #f8f9fa; font-weight: 700; font-size: 2em; text-align: center;">3134R</h2>
-    <div class="container">
-        <h1>VEX High Stakes Skills Calculator</h1>
-        <form id="scoreForm">
-            <label>Red Rings Scored: <input type="number" id="redRings" min="0" value="0" oninput="calculateScore()"></label><br>
-            <label>Top Rings Scored (Top of Stakes): <input type="number" id="blueRings" min="0" value="0" oninput="calculateScore()"></label><br>
-            <label>Goals in Corners (5 pts each): <input type="number" id="goalsInCorners" min="0" max="4" value="0" oninput="calculateScore()"></label><br>
-            <label>Hang Level: 
-                <select id="hangLevel" onchange="calculateScore()">
-                    <option value="0">No Hang</option>
-                    <option value="1">Tier 1 Hang (3 pts)</option>
-                    <option value="2">Tier 2 Hang (6 pts)</option>
-                    <option value="3">Tier 3 Hang (12 pts)</option>
-                </select>
-            </label><br>
-        </form>
-        <div class="result" id="result">Total Score: 0</div>
+    <div class="header">
+        <span class="header-title">High Stakes Scoring - 3134R</span>
+        <button class="home-button" onclick="goHome()">Home</button>
+    </div>
+    <div id="home" class="content" style="display: block;">
+        <div class="container">
+            <h1>Welcome to VEX High Stakes Calculator</h1>
+            <button class="home-button" onclick="showTab('skills')">V5RC Skills Calculator</button><br>
+            <button class="home-button" onclick="showTab('match')">V5RC Match Calculator</button>
+        </div>
+    </div>
+    <div id="skills" class="content">
+        <div class="container">
+            <h1>VEX High Stakes Skills Calculator</h1>
+            <form id="scoreForm">
+                <label>Red Rings Scored: <input type="number" id="redRings" min="0" value="0" oninput="calculateScore('skills')"></label><br>
+                <label>Top Rings Scored (Top of Stakes): <input type="number" id="blueRings" min="0" value="0" oninput="calculateScore('skills')"></label><br>
+                <label>Goals in Corners (5 pts each): <input type="number" id="goalsInCorners" min="0" max="4" value="0" oninput="calculateScore('skills')"></label><br>
+                <label>Hang Level: 
+                    <select id="hangLevel" onchange="calculateScore('skills')">
+                        <option value="0">No Hang</option>
+                        <option value="1">Tier 1 Hang (3 pts)</option>
+                        <option value="2">Tier 2 Hang (6 pts)</option>
+                        <option value="3">Tier 3 Hang (12 pts)</option>
+                    </select>
+                </label><br>
+            </form>
+            <div class="result" id="resultSkills">Total Score: 0</div>
+            <button class="home-button" onclick="goHome()">Home</button>
+        </div>
+    </div>
+    <div id="match" class="content">
+        <div class="container">
+            <h1>VEX High Stakes Match Calculator</h1>
+            <form id="scoreFormMatch">
+                <label>Autonomous Winner: 
+                    <select id="autonWinner" onchange="calculateScore('match')">
+                        <option value="none">None</option>
+                        <option value="red">Red Alliance</option>
+                        <option value="blue">Blue Alliance</option>
+                    </select>
+                </label><br>
+                <h2 class="red-alliance">Red Alliance Scoring</h2>
+                <label>Red Rings Scored: <input type="number" id="redRingsMatchRed" min="0" value="0" oninput="calculateScore('match')"></label><br>
+                <label>Top Rings Scored (Top of Stakes): <input type="number" id="blueRingsMatchRed" min="0" value="0" oninput="calculateScore('match')"></label><br>
+                <label>Goals in Corners (5 pts each): <input type="number" id="goalsInCornersMatchRed" min="0" max="4" value="0" oninput="calculateScore('match')"></label><br>
+                <label>Hang Level: 
+                    <select id="hangLevelMatchRed" onchange="calculateScore('match')">
+                        <option value="0">No Hang</option>
+                        <option value="1">Tier 1 Hang (3 pts)</option>
+                        <option value="2">Tier 2 Hang (6 pts)</option>
+                        <option value="3">Tier 3 Hang (12 pts)</option>
+                    </select>
+                </label><br>
+                <h2 class="blue-alliance">Blue Alliance Scoring</h2>
+                <label>Blue Rings Scored: <input type="number" id="blueRingsMatchBlue" min="0" value="0" oninput="calculateScore('match')"></label><br>
+                <label>Top Rings Scored (Top of Stakes): <input type="number" id="redRingsMatchBlue" min="0" value="0" oninput="calculateScore('match')"></label><br>
+                <label>Goals in Corners (5 pts each): <input type="number" id="goalsInCornersMatchBlue" min="0" max="4" value="0" oninput="calculateScore('match')"></label><br>
+                <label>Hang Level: 
+                    <select id="hangLevelMatchBlue" onchange="calculateScore('match')">
+                        <option value="0">No Hang</option>
+                        <option value="1">Tier 1 Hang (3 pts)</option>
+                        <option value="2">Tier 2 Hang (6 pts)</option>
+                        <option value="3">Tier 3 Hang (12 pts)</option>
+                    </select>
+                </label><br>
+            </form>
+            <div class="result" id="resultMatchRed">Red Alliance Score: 0</div>
+            <div class="result" id="resultMatchBlue">Blue Alliance Score: 0</div>
+            <button class="home-button" onclick="goHome()">Home</button>
+        </div>
     </div>
     <script>
-        function calculateScore() {
-            const redRings = parseInt(document.getElementById("redRings").value);
-            const blueRings = parseInt(document.getElementById("blueRings").value);
-            const goalsInCorners = parseInt(document.getElementById("goalsInCorners").value);
-            const hangLevel = parseInt(document.getElementById("hangLevel").value);
+        function goHome() {
+            document.getElementById('home').style.display = 'block';
+            document.getElementById('skills').style.display = 'none';
+            document.getElementById('match').style.display = 'none';
+        }
+        function showTab(tab) {
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('skills').style.display = tab === 'skills' ? 'block' : 'none';
+            document.getElementById('match').style.display = tab === 'match' ? 'block' : 'none';
+        }
 
-            let totalScore = 0;
+        function calculateScore(type) {
+            if (type === 'skills') {
+                let totalScore = 0;
+                const redRings = parseInt(document.getElementById("redRings").value);
+                const blueRings = parseInt(document.getElementById("blueRings").value);
+                const goalsInCorners = parseInt(document.getElementById("goalsInCorners").value);
+                const hangLevel = parseInt(document.getElementById("hangLevel").value);
 
-            // Red rings scored: 1 point each
-            totalScore += redRings * 1;
+                totalScore += redRings * 1;
+                if (redRings >= blueRings) {
+                    totalScore += blueRings * 3;
+                }
+                totalScore += goalsInCorners * 5;
+                if (hangLevel === 1) {
+                    totalScore += 3;
+                } else if (hangLevel === 2) {
+                    totalScore += 6;
+                } else if (hangLevel === 3) {
+                    totalScore += 12;
+                }
 
-            // Blue rings scored (only count if red rings are scored under them): 3 points each
-            if (redRings >= blueRings) {
-                totalScore += blueRings * 3;
+                document.getElementById("resultSkills").innerText = "Total Score: " + totalScore;
             }
+            else if (type === 'match') {
+                let totalScoreRed = 0;
+                let totalScoreBlue = 0;
 
-            // Goals in corners: 5 points each
-            totalScore += goalsInCorners * 5;
+                // Autonomous Winner Bonus
+                const autonWinner = document.getElementById("autonWinner").value;
+                if (autonWinner === "red") {
+                    totalScoreRed += 10;
+                } else if (autonWinner === "blue") {
+                    totalScoreBlue += 10;
+                }
 
-            // Hang level points
-            if (hangLevel === 1) {
-                totalScore += 3;
-            } else if (hangLevel === 2) {
-                totalScore += 6;
-            } else if (hangLevel === 3) {
-                totalScore += 12;
+                // Red Alliance Scoring
+                const redRingsMatchRed = parseInt(document.getElementById("redRingsMatchRed").value);
+                const blueRingsMatchRed = parseInt(document.getElementById("blueRingsMatchRed").value);
+                const goalsInCornersMatchRed = parseInt(document.getElementById("goalsInCornersMatchRed").value);
+                const hangLevelMatchRed = parseInt(document.getElementById("hangLevelMatchRed").value);
+
+                totalScoreRed += redRingsMatchRed * 1;
+                if (redRingsMatchRed >= blueRingsMatchRed) {
+                    totalScoreRed += blueRingsMatchRed * 3;
+                }
+                totalScoreRed += goalsInCornersMatchRed * 5;
+                if (hangLevelMatchRed === 1) {
+                    totalScoreRed += 3;
+                } else if (hangLevelMatchRed === 2) {
+                    totalScoreRed += 6;
+                } else if (hangLevelMatchRed === 3) {
+                    totalScoreRed += 12;
+                }
+
+                // Blue Alliance Scoring
+                const blueRingsMatchBlue = parseInt(document.getElementById("blueRingsMatchBlue").value);
+                const redRingsMatchBlue = parseInt(document.getElementById("redRingsMatchBlue").value);
+                const goalsInCornersMatchBlue = parseInt(document.getElementById("goalsInCornersMatchBlue").value);
+                const hangLevelMatchBlue = parseInt(document.getElementById("hangLevelMatchBlue").value);
+
+                totalScoreBlue += blueRingsMatchBlue * 1;
+                if (blueRingsMatchBlue >= redRingsMatchBlue) {
+                    totalScoreBlue += redRingsMatchBlue * 3;
+                }
+                totalScoreBlue += goalsInCornersMatchBlue * 5;
+                if (hangLevelMatchBlue === 1) {
+                    totalScoreBlue += 3;
+                } else if (hangLevelMatchBlue === 2) {
+                    totalScoreBlue += 6;
+                } else if (hangLevelMatchBlue === 3) {
+                    totalScoreBlue += 12;
+                }
+
+                document.getElementById("resultMatchRed").innerText = "Red Alliance Score: " + totalScoreRed;
+                document.getElementById("resultMatchBlue").innerText = "Blue Alliance Score: " + totalScoreBlue;
             }
-
-            document.getElementById("result").innerText = "Total Score: " + totalScore;
         }
     </script>
 </body>
